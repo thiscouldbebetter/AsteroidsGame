@@ -4,7 +4,7 @@ function Actor(pos, activity)
 	this.pos = pos;
 	this.activity = activity;
 
-	this.color = "Gray";
+	this.color = "LightGray";
 	this.widthHalf = 3;
 	this.lengthHalf = 4;
 

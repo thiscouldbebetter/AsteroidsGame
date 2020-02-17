@@ -5,7 +5,7 @@ function Projectile(pos, vel)
 	this.vel = vel;
 
 	this.radiusInFlight = 2;
-	this.colorInFlight = "Gray";
+	this.colorInFlight = "Yellow";
 
 	this.ticksSinceSpawned = 0;
 	this.ticksToLive = 100;
@@ -13,7 +13,7 @@ function Projectile(pos, vel)
 	this.ticksSinceExplosion = null;
 	this.ticksToExplode = 30;
 	this.radiusExplodingMax = 20;
-	this.colorExploding = "Gray";
+	this.colorExploding = "Red";
 }
 
 {

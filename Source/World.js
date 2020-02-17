@@ -25,7 +25,13 @@ function World(size, actor, obstacles)
 		var obstacleSpeedMax = .2;
 		for (var i = 0; i < numberOfObstacles; i++)
 		{
-			var pos = new Coords().random().multiply(size);
+			var pos = new Coords
+			(
+				Math.random(), Math.random()
+			).multiply
+			(
+				size
+			);
 			var vel = new Polar
 			(
 				Math.random(), // azimuthInTurns
@@ -78,6 +84,7 @@ function World(size, actor, obstacles)
 	World.prototype.drawToDisplay = function(display)
 	{
 		display.clear();
+		display.drawBackground("Black", "Gray");
 
 		for (var i = 0; i < this.obstacles.length; i++)
 		{

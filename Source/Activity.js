@@ -17,11 +17,12 @@ function Activity(perform)
 			function perform(world, actor)
 			{
 				var inputHelper = Globals.Instance.inputHelper;
-				var inputsActive = inputHelper.keysPressed;
+				var inputsActive = inputHelper.inputsActive();
 
 				for (var i = 0; i < inputsActive.length; i++)
 				{
 					var inputActive = inputsActive[i];
+					inputActive = (inputActive == null ? null : inputActive.name);
 					if (inputActive == "ArrowLeft")
 					{
 						actor.forward.subtract
