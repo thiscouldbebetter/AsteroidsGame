@@ -81,7 +81,7 @@ function Activity(perform)
 						);
 						world.projectiles.push(projectile);
 
-						inputHelper.removeKey(inputActive)
+						inputHelper.inputRemove(inputActive);
 					}
 				}
 			}
