@@ -1,13 +1,16 @@
 
-function Globals()
+class Globals
 {
-	// Do nothing.
-}
+	static Instance()
+	{
+		if (Globals._instance == null)
+		{
+			Globals._instance = new Globals();
+		}
+		return Globals._instance;
+	}
 
-{
-	Globals.Instance = new Globals();
-
-	Globals.prototype.initialize = function(timerTicksPerSecond, display, world)
+	initialize(timerTicksPerSecond, display, world)
 	{
 		this.display = display;
 		this.display.initialize();
@@ -28,7 +31,7 @@ function Globals()
 
 	// events
 
-	Globals.prototype.handleEventTimerTick = function()
+	handleEventTimerTick()
 	{
 		this.world.drawToDisplay(this.display);
 		this.world.updateForTimerTick();

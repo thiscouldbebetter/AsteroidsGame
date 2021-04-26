@@ -1,15 +1,23 @@
 
-function CollisionHelper()
+class CollisionHelper
 {
-	this.displacement = new Coords();
-	this.edgeForward = new Coords();
-	this.edgeRight = new Coords();
-}
+	constructor()
+	{
+		this.displacement = new Coords();
+		this.edgeForward = new Coords();
+		this.edgeRight = new Coords();
+	}
 
-{
-	CollisionHelper.Instance = new CollisionHelper();
+	static Instance()
+	{
+		if (CollisionHelper._instance == null)
+		{
+			CollisionHelper._instance = new CollisionHelper();
+		}
+		return CollisionHelper._instance;
+	}
 
-	CollisionHelper.prototype.doCirclesCollide = function
+	doCirclesCollide
 	(
 		circle0Center, circle0Radius, circle1Center, circle1Radius
 	)

@@ -1,17 +1,18 @@
 
-function Obstacle(radius, pos, vel)
+class Obstacle
 {
-	this.radius = radius;
-	this.pos = pos;
-	this.vel = vel;
-}
+	constructor(radius, pos, vel)
+	{
+		this.radius = radius;
+		this.pos = pos;
+		this.vel = vel;
+	}
 
-{
-	Obstacle.prototype.updateForTimerTick = function(world)
+	updateForTimerTick(world)
 	{
 		this.pos.add(this.vel).wrapToRangeMax(world.size);
 
-		var collisionHelper = CollisionHelper.Instance;
+		var collisionHelper = CollisionHelper.Instance();
 		var obstacles = world.obstacles;
 		for (var i = 0; i < obstacles.length; i++)
 		{
@@ -34,14 +35,14 @@ function Obstacle(radius, pos, vel)
 
 	// drawable
 
-	Obstacle.prototype.drawToDisplay = function(display)
+	drawToDisplay(display)
 	{
-		display.drawCircle(this.pos, this.radius, "Gray");
+		display.drawCircle(this.pos, this.radius, Color.byName("Gray"));
 	}
 
 	// collidable
 
-	Obstacle.prototype.collideWithOther = function(other)
+	collideWithOther(other)
 	{
 		var bodyPositionsAfterCollision = [new Coords(), new Coords()];
 		var bodyVelsAfterCollision = [new Coords(), new Coords()];

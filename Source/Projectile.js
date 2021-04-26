@@ -1,23 +1,24 @@
 
-function Projectile(pos, vel)
+class Projectile
 {
-	this.pos = pos;
-	this.vel = vel;
+	constructor(pos, vel)
+	{
+		this.pos = pos;
+		this.vel = vel;
 
-	this.radiusInFlight = 2;
-	this.colorInFlight = "Yellow";
+		this.radiusInFlight = 2;
+		this.colorInFlight = Color.byName("Yellow");
 
-	this.ticksSinceSpawned = 0;
-	this.ticksToLive = 100;
+		this.ticksSinceSpawned = 0;
+		this.ticksToLive = 100;
 
-	this.ticksSinceExplosion = null;
-	this.ticksToExplode = 30;
-	this.radiusExplodingMax = 20;
-	this.colorExploding = "Red";
-}
+		this.ticksSinceExplosion = null;
+		this.ticksToExplode = 30;
+		this.radiusExplodingMax = 20;
+		this.colorExploding = Color.byName("Red");
+	}
 
-{
-	Projectile.prototype.drawToDisplay = function(display)
+	drawToDisplay(display)
 	{
 		if (this.ticksSinceExplosion == null)
 		{
@@ -42,16 +43,16 @@ function Projectile(pos, vel)
 		}
 	}
 
-	Projectile.prototype.updateForTimerTick = function(world)
+	updateForTimerTick(world)
 	{
 		if (this.ticksSinceSpawned >= this.ticksToLive)
 		{
-			world.projectiles.remove(this);
+			ArrayHelper.remove(world.projectiles, this);
 		}
 		else if (this.ticksSinceExplosion == null)
 		{
 			this.pos.add(this.vel).wrapToRangeMax(world.size);
-			
+
 			this.updateForTimerTick_Obstacles(world);
 		}
 		else if (this.ticksSinceExplosion < this.ticksToExplode)
@@ -66,9 +67,9 @@ function Projectile(pos, vel)
 		this.ticksSinceSpawned++;
 	}
 
-	Projectile.prototype.updateForTimerTick_Obstacles = function(world)
+	updateForTimerTick_Obstacles(world)
 	{
-		var collisionHelper = CollisionHelper.Instance;
+		var collisionHelper = CollisionHelper.Instance();
 
 		var obstacles = world.obstacles;
 
@@ -81,10 +82,10 @@ function Projectile(pos, vel)
 				obstacle.pos, obstacle.radius
 			);
 
-			if (doProjectileAndObstacleCollide == true)
+			if (doProjectileAndObstacleCollide)
 			{
-				world.projectiles.remove(this);
-				obstacles.remove(obstacle);
+				ArrayHelper.remove(world.projectiles, this);
+				ArrayHelper.remove(obstacles, obstacle);
 				i--;
 
 				this.updateForTimerTick_Obstacles_Children
@@ -97,7 +98,7 @@ function Projectile(pos, vel)
 		}
 	}
 
-	Projectile.prototype.updateForTimerTick_Obstacles_Children = function(world, obstacle)
+	updateForTimerTick_Obstacles_Children(world, obstacle)
 	{
 		var obstacleChildRadius = obstacle.radius / 2;
 		if (obstacleChildRadius >= 2)

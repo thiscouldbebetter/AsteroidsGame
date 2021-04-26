@@ -1,34 +1,35 @@
 
-function Actor(pos, activity)
+class Actor
 {
-	this.pos = pos;
-	this.activity = activity;
+	constructor(pos, activity)
+	{
+		this.pos = pos;
+		this.activity = activity;
 
-	this.color = "LightGray";
-	this.widthHalf = 3;
-	this.lengthHalf = 4;
+		this.color = Color.byName("GrayLight");
+		this.widthHalf = 3;
+		this.lengthHalf = 4;
 
-	this.forward = new Coords(1, 0);
-	this.right = this.forward.clone().right();
+		this.forward = new Coords(1, 0);
+		this.right = this.forward.clone().right();
 
-	this.vel = new Coords(0, 0);
+		this.vel = new Coords(0, 0);
 
-	this.accelPerTick = .0025;
-	this.turnsPerTick = .02;
-	this.speedMax = .25;
-	this.projectileSpeed = 1; 
+		this.accelPerTick = .0025;
+		this.turnsPerTick = .02;
+		this.speedMax = .25;
+		this.projectileSpeed = 1; 
 
-	// Helper variables.
+		// Helper variables.
 
-	this.coordsTemp = new Coords();
-	this.vertices = 
-	[
-		new Coords(), new Coords(), new Coords()
-	];
-}
+		this.coordsTemp = new Coords();
+		this.vertices = 
+		[
+			new Coords(), new Coords(), new Coords()
+		];
+	}
 
-{
-	Actor.prototype.updateForTimerTick = function(world)
+	updateForTimerTick(world)
 	{
 		this.activity.perform(world, this);
 
@@ -41,7 +42,7 @@ function Actor(pos, activity)
 		this.pos.add(this.vel);
 		this.pos.wrapToRangeMax(world.size);
 
-		var collisionHelper = CollisionHelper.Instance;
+		var collisionHelper = CollisionHelper.Instance();
 
 		var obstacles = world.obstacles;
 		for (var i = 0; i < obstacles.length; i++)
@@ -52,16 +53,16 @@ function Actor(pos, activity)
 				this.pos, this.widthHalf, // hack
 				obstacle.pos, obstacle.radius
 			);
-			if (doActorAndObstacleCollide == true)
+			if (doActorAndObstacleCollide)
 			{
-				world.actors.remove(this);
+				ArrayHelper.remove(world.actors, this);
 			}
 		}
 	}
 
 	// drawable
 
-	Actor.prototype.drawToDisplay = function(display)
+	drawToDisplay(display)
 	{
 		this.vertices[0].overwriteWith
 		(

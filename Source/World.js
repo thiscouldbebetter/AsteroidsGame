@@ -1,21 +1,23 @@
 
-function World(size, actor, obstacles)
+class World
 {
-	this.size = size;
-	this.actors = [ actor ];
-	this.obstacles = obstacles;
+	constructor(size, actor, obstacles)
+	{
+		this.size = size;
+		this.actors = [ actor ];
+		this.obstacles = obstacles;
 
-	this.projectiles = [];
-}
-{
-	World.random = function(size)
+		this.projectiles = [];
+	}
+
+	static random(size)
 	{
 		var actorPos = size.clone().multiplyScalar(.5);
 
 		var actor = new Actor
 		(
 			actorPos,
-			Activity.Instances.UserInputAccept
+			Activity.Instances().UserInputAccept
 		);
 
 		var numberOfObstacles = 2;
@@ -58,8 +60,8 @@ function World(size, actor, obstacles)
 
 	// instance methods
 
-	World.prototype.updateForTimerTick = function()
-	{		
+	updateForTimerTick()
+	{
 		for (var i = 0; i < this.actors.length; i++)
 		{
 			var actor = this.actors[i];
@@ -81,10 +83,10 @@ function World(size, actor, obstacles)
 
 	// drawable
 
-	World.prototype.drawToDisplay = function(display)
+	drawToDisplay(display)
 	{
 		display.clear();
-		display.drawBackground("Black", "Gray");
+		display.drawBackground(Color.byName("Black"), Color.byName("Gray"));
 
 		for (var i = 0; i < this.obstacles.length; i++)
 		{
