@@ -1,14 +1,14 @@
 function main()
 {
-	var displaySize = new Coords(200, 200);
+	var displaySize = Coords.fromXY(200, 200);
 
-	var display = new Display2D([displaySize]);
+	var display = Display2D.fromSize(displaySize);
 
-	var world = World.random(displaySize);
+	var world = World2.random(displaySize);
 
 	Globals.Instance().initialize
 	(
-		10, // ticksPerSecond
+		200, // ticksPerSecond - Something's up, this is way off.
 		display,
 		world
 	);

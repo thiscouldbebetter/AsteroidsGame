@@ -1,18 +1,22 @@
 
 class Obstacle
 {
-	constructor(radius, pos, vel)
+	radius: number;
+	pos: Coords;
+	vel: Coords;
+
+	constructor(radius: number, pos: Coords, vel: Coords)
 	{
 		this.radius = radius;
 		this.pos = pos;
 		this.vel = vel;
 	}
 
-	updateForTimerTick(world)
+	updateForTimerTick(world: World2): void
 	{
 		this.pos.add(this.vel).wrapToRangeMax(world.size);
 
-		var collisionHelper = CollisionHelper.Instance();
+		var collisionHelper = CollisionHelper2.Instance();
 		var obstacles = world.obstacles;
 		for (var i = 0; i < obstacles.length; i++)
 		{
@@ -35,19 +39,22 @@ class Obstacle
 
 	// drawable
 
-	drawToDisplay(display)
+	drawToDisplay(display: Display2D): void
 	{
-		display.drawCircle(this.pos, this.radius, Color.byName("Gray"));
+		display.drawCircle
+		(
+			this.pos, this.radius, Color.byName("Gray"), null, null
+		);
 	}
 
 	// collidable
 
-	collideWithOther(other)
+	collideWithOther(other: Obstacle): void
 	{
-		var bodyPositionsAfterCollision = [new Coords(), new Coords()];
-		var bodyVelsAfterCollision = [new Coords(), new Coords()];
-		var displacement = new Coords();
-		var velocityRelative = new Coords();
+		var bodyPositionsAfterCollision = [Coords.create(), Coords.create()];
+		var bodyVelsAfterCollision = [Coords.create(), Coords.create()];
+		var displacement = Coords.create();
+		var velocityRelative = Coords.create();
  
 		var bodies = [ this, other ];
 		var body0 = bodies[0];

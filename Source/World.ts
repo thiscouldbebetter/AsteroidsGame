@@ -1,7 +1,13 @@
 
-class World
+class World2
 {
-	constructor(size, actor, obstacles)
+	size: Coords;
+	actors: Actor2[];
+	obstacles: Obstacle[];
+
+	projectiles: Projectile[];
+
+	constructor(size: Coords, actor: Actor2, obstacles: Obstacle[])
 	{
 		this.size = size;
 		this.actors = [ actor ];
@@ -10,14 +16,14 @@ class World
 		this.projectiles = [];
 	}
 
-	static random(size)
+	static random(size: Coords): World2
 	{
 		var actorPos = size.clone().multiplyScalar(.5);
 
-		var actor = new Actor
+		var actor = new Actor2
 		(
 			actorPos,
-			Activity.Instances().UserInputAccept
+			Activity2.Instances().UserInputAccept
 		);
 
 		var numberOfObstacles = 2;
@@ -27,7 +33,7 @@ class World
 		var obstacleSpeedMax = .2;
 		for (var i = 0; i < numberOfObstacles; i++)
 		{
-			var pos = new Coords
+			var pos = Coords.fromXY
 			(
 				Math.random(), Math.random()
 			).multiply
@@ -37,8 +43,9 @@ class World
 			var vel = new Polar
 			(
 				Math.random(), // azimuthInTurns
-				Math.random() * obstacleSpeedMax // radius
-			).toCoords(new Coords());
+				Math.random() * obstacleSpeedMax, // radius
+				0
+			).toCoords(Coords.create());
 
 			var obstacle = new Obstacle
 			(
@@ -48,7 +55,7 @@ class World
 			obstacles.push(obstacle);
 		}
 
-		var returnValue = new World
+		var returnValue = new World2
 		(
 			size,
 			actor,
@@ -60,7 +67,7 @@ class World
 
 	// instance methods
 
-	updateForTimerTick()
+	updateForTimerTick(): void
 	{
 		for (var i = 0; i < this.actors.length; i++)
 		{
@@ -83,7 +90,7 @@ class World
 
 	// drawable
 
-	drawToDisplay(display)
+	drawToDisplay(display: Display2D): void
 	{
 		display.clear();
 		display.drawBackground(Color.byName("Black"), Color.byName("Gray"));

@@ -1,7 +1,19 @@
 
 class Projectile
 {
-	constructor(pos, vel)
+	pos: Coords;
+	vel: Coords;
+
+	radiusInFlight: number;
+	colorInFlight: Color;
+	ticksSinceSpawned: number;
+	ticksToLive: number;
+	ticksSinceExplosion: number;
+	ticksToExplode: number;
+	radiusExplodingMax: number;
+	colorExploding: Color;
+
+	constructor(pos: Coords, vel: Coords)
 	{
 		this.pos = pos;
 		this.vel = vel;
@@ -18,19 +30,20 @@ class Projectile
 		this.colorExploding = Color.byName("Red");
 	}
 
-	drawToDisplay(display)
+	drawToDisplay(display: Display2D): void
 	{
 		if (this.ticksSinceExplosion == null)
 		{
 			display.drawCircle
 			(
-				this.pos, this.radiusInFlight, this.colorInFlight
+				this.pos, this.radiusInFlight, this.colorInFlight, null, null
 			);
 			display.drawLine
 			(
 				this.pos, 
 				this.pos.clone().subtract(this.vel), 
-				this.colorInFlight
+				this.colorInFlight,
+				1 // lineThickness
 			);
 		}
 		else
@@ -39,11 +52,15 @@ class Projectile
 				this.radiusExplodingMax 
 				* this.ticksSinceExplosion 
 				/ this.ticksToExplode;
-			display.drawCircle(this.pos, radiusCurrent, this.colorExploding);
+			display.drawCircle
+			(
+				this.pos, radiusCurrent, this.colorExploding,
+				null, null // colorBorder, borderThickness
+			);
 		}
 	}
 
-	updateForTimerTick(world)
+	updateForTimerTick(world: World2): void
 	{
 		if (this.ticksSinceSpawned >= this.ticksToLive)
 		{
@@ -67,9 +84,9 @@ class Projectile
 		this.ticksSinceSpawned++;
 	}
 
-	updateForTimerTick_Obstacles(world)
+	updateForTimerTick_Obstacles(world: World2): void
 	{
-		var collisionHelper = CollisionHelper.Instance();
+		var collisionHelper = CollisionHelper2.Instance();
 
 		var obstacles = world.obstacles;
 
@@ -98,7 +115,10 @@ class Projectile
 		}
 	}
 
-	updateForTimerTick_Obstacles_Children(world, obstacle)
+	updateForTimerTick_Obstacles_Children
+	(
+		world: World2, obstacle: Obstacle
+	): void
 	{
 		var obstacleChildRadius = obstacle.radius / 2;
 		if (obstacleChildRadius >= 2)

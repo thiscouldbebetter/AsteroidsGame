@@ -1,29 +1,39 @@
 
-class Activity
+class Activity2
 {
-	constructor(perform)
+	perform: (w: World2, a: Actor2) => void;
+
+	constructor(perform: (w: World2, a: Actor2) => void)
 	{
 		this.perform = perform;
 	}
 
-	static Instances()
+	static _instances: Activity2_Instances;
+	static Instances(): Activity2_Instances
 	{
-		if (Activity._instances == null)
+		if (Activity2._instances == null)
 		{
-			Activity._instances = new Activity_Instances();
+			Activity2._instances = new Activity2_Instances();
 		}
-		return Activity._instances;
+		return Activity2._instances;
 	}
 }
 
-class Activity_Instances
+class Activity2_Instances
 {
+	DoNothing: Activity2;
+	UserInputAccept: Activity2;
+
 	constructor()
 	{
-		this.DoNothing = new Activity(function perform() {});
-		this.UserInputAccept = new Activity
+		this.DoNothing = new Activity2
 		(
-			function perform(world, actor)
+			(world: World2, actor: Actor2) => {}
+		);
+
+		this.UserInputAccept = new Activity2
+		(
+			(world: World2, actor: Actor2) =>
 			{
 				var inputHelper = Globals.Instance().inputHelper;
 				var inputsActive = inputHelper.inputsActive();
@@ -31,8 +41,10 @@ class Activity_Instances
 				for (var i = 0; i < inputsActive.length; i++)
 				{
 					var inputActive = inputsActive[i];
-					inputActive = (inputActive == null ? null : inputActive.name);
-					if (inputActive == "ArrowLeft")
+					var inputActiveName =
+						(inputActive == null ? null : inputActive.name);
+
+					if (inputActiveName == "ArrowLeft")
 					{
 						actor.forward.subtract
 						(
@@ -43,7 +55,7 @@ class Activity_Instances
 						).normalize();
 						actor.right.overwriteWith(actor.forward).right();
 					}
-					else if (inputActive == "ArrowRight")
+					else if (inputActiveName == "ArrowRight")
 					{
 						actor.forward.add
 						(
@@ -54,7 +66,7 @@ class Activity_Instances
 						).normalize();
 						actor.right.overwriteWith(actor.forward).right();
 					}
-					else if (inputActive == "ArrowUp")
+					else if (inputActiveName == "ArrowUp")
 					{
 						actor.vel.add
 						(
@@ -64,7 +76,7 @@ class Activity_Instances
 							)
 						);
 					}
-					else if (inputActive == "Enter")
+					else if (inputActiveName == "Enter")
 					{
 						if (world.projectiles.length > 0)
 						{
@@ -90,7 +102,7 @@ class Activity_Instances
 						);
 						world.projectiles.push(projectile);
 
-						inputHelper.inputRemove(inputActive);
+						inputHelper.inputRemove(inputActiveName);
 					}
 				}
 			}

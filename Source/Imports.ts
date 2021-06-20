@@ -1,15 +1,15 @@
-var gf = ThisCouldBeBetter.GameFramework;
+import gf = ThisCouldBeBetter.GameFramework;
 
 // Display.
-var Color = gf.Color;
-var Display2D = gf.Display2D;
+import Color = gf.Color;
+import Display2D = gf.Display2D;
 
 // Geometry.
-var Coords = gf.Coords;
-var Polar = gf.Polar;
+import Coords = gf.Coords;
+import Polar = gf.Polar;
 
 // Helpers.
-var ArrayHelper = gf.ArrayHelper;
+import ArrayHelper = gf.ArrayHelper;
 
 // Input.
-var InputHelper = gf.InputHelper;
+import InputHelper = gf.InputHelper;

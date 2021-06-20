@@ -1,7 +1,24 @@
 
-class Actor
+class Actor2
 {
-	constructor(pos, activity)
+	pos: Coords;
+	activity: Activity2;
+
+	color: Color;
+	widthHalf: number;
+	lengthHalf: number;
+	forward: Coords;
+	right: Coords;
+	vel: Coords;
+	accelPerTick: number;
+	turnsPerTick: number;
+	speedMax: number;
+	projectileSpeed: number;
+
+	coordsTemp: Coords;
+	vertices: Coords[];
+
+	constructor(pos: Coords, activity: Activity2)
 	{
 		this.pos = pos;
 		this.activity = activity;
@@ -10,10 +27,10 @@ class Actor
 		this.widthHalf = 3;
 		this.lengthHalf = 4;
 
-		this.forward = new Coords(1, 0);
+		this.forward = Coords.fromXY(1, 0);
 		this.right = this.forward.clone().right();
 
-		this.vel = new Coords(0, 0);
+		this.vel = Coords.create();
 
 		this.accelPerTick = .0025;
 		this.turnsPerTick = .02;
@@ -22,14 +39,14 @@ class Actor
 
 		// Helper variables.
 
-		this.coordsTemp = new Coords();
+		this.coordsTemp = Coords.create();
 		this.vertices = 
 		[
-			new Coords(), new Coords(), new Coords()
+			Coords.create(), Coords.create(), Coords.create()
 		];
 	}
 
-	updateForTimerTick(world)
+	updateForTimerTick(world: World2): void
 	{
 		this.activity.perform(world, this);
 
@@ -42,7 +59,7 @@ class Actor
 		this.pos.add(this.vel);
 		this.pos.wrapToRangeMax(world.size);
 
-		var collisionHelper = CollisionHelper.Instance();
+		var collisionHelper = CollisionHelper2.Instance();
 
 		var obstacles = world.obstacles;
 		for (var i = 0; i < obstacles.length; i++)
@@ -62,7 +79,7 @@ class Actor
 
 	// drawable
 
-	drawToDisplay(display)
+	drawToDisplay(display: Display2D): void
 	{
 		this.vertices[0].overwriteWith
 		(
@@ -77,7 +94,7 @@ class Actor
 
 		var back = this.coordsTemp.overwriteWith
 		(
-			this.forward	
+			this.forward
 		).multiplyScalar
 		(
 			0 - this.lengthHalf
@@ -108,6 +125,6 @@ class Actor
 			back
 		);
 
-		display.drawPolygon(this.vertices, this.color);
+		display.drawPolygon(this.vertices, this.color, null);
 	}
 }

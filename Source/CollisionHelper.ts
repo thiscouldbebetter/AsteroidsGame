@@ -1,26 +1,32 @@
 
-class CollisionHelper
+class CollisionHelper2
 {
+	displacement: Coords;
+	edgeForward: Coords;
+	edgeRight: Coords;
+
 	constructor()
 	{
-		this.displacement = new Coords();
-		this.edgeForward = new Coords();
-		this.edgeRight = new Coords();
+		this.displacement = Coords.create();
+		this.edgeForward = Coords.create();
+		this.edgeRight = Coords.create();
 	}
 
-	static Instance()
+	static _instance: CollisionHelper2;
+	static Instance(): CollisionHelper2
 	{
-		if (CollisionHelper._instance == null)
+		if (CollisionHelper2._instance == null)
 		{
-			CollisionHelper._instance = new CollisionHelper();
+			CollisionHelper2._instance = new CollisionHelper2();
 		}
-		return CollisionHelper._instance;
+		return CollisionHelper2._instance;
 	}
 
 	doCirclesCollide
 	(
-		circle0Center, circle0Radius, circle1Center, circle1Radius
-	)
+		circle0Center: Coords, circle0Radius: number,
+		circle1Center: Coords, circle1Radius: number
+	): boolean
 	{
 		var distanceBetweenCenters = this.displacement.overwriteWith
 		(
