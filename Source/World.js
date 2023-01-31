@@ -10,6 +10,7 @@ class World2 {
         var actorPos = size.clone().multiplyScalar(.5);
         var actor = new Actor2(actorPos, Activity2.Instances().UserInputAccept);
         var numberOfObstacles = 2;
+        var obstacleMass = 8;
         var obstacleRadius = 16;
         var obstacles = [];
         var obstacleSpeedMax = .2;
@@ -18,7 +19,7 @@ class World2 {
             var vel = new Polar(Math.random(), // azimuthInTurns
             Math.random() * obstacleSpeedMax, // radius
             0).toCoords(Coords.create());
-            var obstacle = new Obstacle(obstacleRadius, pos, vel);
+            var obstacle = new Obstacle(obstacleMass, obstacleRadius, pos, vel);
             obstacles.push(obstacle);
         }
         var returnValue = new World2(size, actor, obstacles);

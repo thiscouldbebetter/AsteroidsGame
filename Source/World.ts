@@ -27,6 +27,7 @@ class World2
 		);
 
 		var numberOfObstacles = 2;
+		var obstacleMass = 8;
 		var obstacleRadius = 16;
 
 		var obstacles = [];
@@ -49,7 +50,7 @@ class World2
 
 			var obstacle = new Obstacle
 			(
-				obstacleRadius, pos, vel
+				obstacleMass, obstacleRadius, pos, vel
 			);
 
 			obstacles.push(obstacle);

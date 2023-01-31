@@ -30,7 +30,8 @@ class Activity2_Instances {
                 else if (inputActiveName == "ArrowUp") {
                     actor.vel.add(actor.forward.clone().multiplyScalar(actor.accelPerTick));
                 }
-                else if (inputActiveName == "Enter") {
+                else if (inputActiveName == "Enter"
+                    || inputActiveName == "_") {
                     if (world.projectiles.length > 0) {
                         return;
                     }

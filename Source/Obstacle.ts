@@ -1,12 +1,20 @@
 
 class Obstacle
 {
+	mass: number;
 	radius: number;
 	pos: Coords;
 	vel: Coords;
 
-	constructor(radius: number, pos: Coords, vel: Coords)
+	constructor
+	(
+		mass: number,
+		radius: number,
+		pos: Coords,
+		vel: Coords
+	)
 	{
+		this.mass = mass;
 		this.radius = radius;
 		this.pos = pos;
 		this.vel = vel;
@@ -59,7 +67,7 @@ class Obstacle
 		var bodies = [ this, other ];
 		var body0 = bodies[0];
 		var body1 = bodies[1];
- 
+
 		var sumOfBodyRadii = 
 			body0.radius + body1.radius; 
  
@@ -103,7 +111,7 @@ class Obstacle
 		(
 			-1
 		);
- 
+
 		for (var i = 0; i < bodies.length; i++)
 		{
 			var bodyThis = bodies[i];
@@ -112,14 +120,14 @@ class Obstacle
 			var bodyPosAfterCollision = bodyPositionsAfterCollision[i];
 			var bodyVelAfterCollision = bodyVelsAfterCollision[i];
  
-			var multiplier = (i == 0 ? -1 : 1);
+			var directionMultiplier = (i == 0 ? -1 : 1);
  
 			bodyPosAfterCollision.overwriteWith
 			(
 				normalAtCollision
 			).multiplyScalar
 			(
-				multiplier * overlapHalf
+				directionMultiplier * overlapHalf
 			).add
 			(
 				bodyThis.pos
@@ -130,10 +138,18 @@ class Obstacle
 				velocityRelative
 			).multiplyScalar
 			(
-				multiplier
+				directionMultiplier
 			).add
 			(
 				bodyOther.vel
+			);
+
+			var bodySpeedAfterCollision =
+				bodyVelAfterCollision.magnitude(); // todo
+
+			bodyVelAfterCollision.normalize().multiplyScalar
+			(
+				bodySpeedAfterCollision
 			);
 		}
  

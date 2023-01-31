@@ -120,8 +120,10 @@ class Projectile
 		world: World2, obstacle: Obstacle
 	): void
 	{
-		var obstacleChildRadius = obstacle.radius / 2;
-		if (obstacleChildRadius >= 2)
+		var obstacleChildMass = obstacle.mass / 2;
+		var obstacleChildRadius = obstacle.radius / Math.pow(2, 1/3);
+		
+		if (obstacleChildMass >= 1)
 		{
 			for (var c = 0; c < 2; c++)
 			{
@@ -140,6 +142,7 @@ class Projectile
 
 				var obstacleChild = new Obstacle
 				(
+					obstacleChildMass,
 					obstacleChildRadius,
 					obstacle.pos.clone().add(displacement),
 					obstacleChildVel

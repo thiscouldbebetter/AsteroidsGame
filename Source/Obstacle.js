@@ -1,6 +1,7 @@
 "use strict";
 class Obstacle {
-    constructor(radius, pos, vel) {
+    constructor(mass, radius, pos, vel) {
+        this.mass = mass;
         this.radius = radius;
         this.pos = pos;
         this.vel = vel;
@@ -46,9 +47,11 @@ class Obstacle {
             var bodyOther = bodies[1 - i];
             var bodyPosAfterCollision = bodyPositionsAfterCollision[i];
             var bodyVelAfterCollision = bodyVelsAfterCollision[i];
-            var multiplier = (i == 0 ? -1 : 1);
-            bodyPosAfterCollision.overwriteWith(normalAtCollision).multiplyScalar(multiplier * overlapHalf).add(bodyThis.pos);
-            bodyVelAfterCollision.overwriteWith(velocityRelative).multiplyScalar(multiplier).add(bodyOther.vel);
+            var directionMultiplier = (i == 0 ? -1 : 1);
+            bodyPosAfterCollision.overwriteWith(normalAtCollision).multiplyScalar(directionMultiplier * overlapHalf).add(bodyThis.pos);
+            bodyVelAfterCollision.overwriteWith(velocityRelative).multiplyScalar(directionMultiplier).add(bodyOther.vel);
+            var bodySpeedAfterCollision = bodyVelAfterCollision.magnitude(); // todo
+            bodyVelAfterCollision.normalize().multiplyScalar(bodySpeedAfterCollision);
         }
         for (var i = 0; i < bodies.length; i++) {
             var bodyThis = bodies[i];
